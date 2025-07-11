@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import UserList from '@/pages/user/List';
-import UserDetail from '@/pages/user/Detail';
+import UserList from '@/pages/user/List/List.tsx';
+import UserDetail from '@/pages/user/Detail/Detail.tsx';
 import './App.css';
 
 function App() {
