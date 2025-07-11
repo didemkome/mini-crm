@@ -62,10 +62,19 @@ const ListTTableCell = styled.td`
   }
 `;
 
+const ListCardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 1rem;
+  justify-content: center;
+`;
+
 export {
   ListContainer as Container,
   ListTable as Table,
   ListTTableRow as TableRow,
   ListTTableHeader as TableHeader,
   ListTTableCell as TableCell,
+  ListCardContainer as CardContainer,
 };
