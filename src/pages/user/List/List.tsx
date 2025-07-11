@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { generateFakeUsers } from '@/utils/generateFakeUsers.ts';
 
 import { useUserContext } from '@/context/UserProvider.tsx';
 
 import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
 import * as S from './List.styled.ts';
+import Pagination from '@/components/Pagination/Pagination.tsx';
 
 const UserList = () => {
+  const navigate = useNavigate();
   const { state, dispatch } = useUserContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
+  const pageParam = searchParams.get('page');
+  const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+
   const [searchTerm, setSearchTerm] = useState(searchQuery);
+
+  const itemsPerPage = 10;
 
   useEffect(() => {
     if (state.users.length === 0) {
@@ -28,15 +35,20 @@ const UserList = () => {
     dispatch({ type: 'TOGGLE_VIEW' });
   };
 
+  const togglePagination = () => {
+    dispatch({ type: 'TOGGLE_PAGINATION' });
+  };
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
 
-    if (value) {
-      setSearchParams({ search: value });
-    } else {
-      setSearchParams({});
-    }
+    setSearchParams(() => {
+      const params = new URLSearchParams();
+      if (value) params.set('search', value);
+      params.set('page', '1');
+      return params;
+    });
   };
 
   const filteredUsers = state.users.filter(
@@ -46,26 +58,44 @@ const UserList = () => {
       user.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const displayedUsers = state.isPaginated
+    ? filteredUsers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : filteredUsers;
+
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  const goToPage = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set('page', page.toString());
+      if (searchTerm) {
+        params.set('search', searchTerm);
+      }
+      return params;
+    });
+  };
+
   return (
     <S.Container>
-      <h1>User List</h1>
+      <S.Title>User List</S.Title>
 
-      <button onClick={toggleView}>
-        Switch to {state.viewType === 'table' ? 'Card' : 'Table'} View
-      </button>
-
-      <input
-        type="text"
-        placeholder="Search by name, email or role"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        style={{
-          padding: '8px',
-          fontSize: '1rem',
-          marginBottom: '12px',
-          width: '100%',
-        }}
-      />
+      <S.ControlsWrapper>
+        <S.Search
+          type="text"
+          placeholder="Search by name, email or role"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <S.ButtonGroup>
+          <S.Button onClick={toggleView}>
+            Switch to {state.viewType === 'table' ? 'Card' : 'Table'} View
+          </S.Button>
+          <S.Button onClick={togglePagination}>
+            {state.isPaginated ? 'Show All Users' : 'Show Paginated'}
+          </S.Button>
+        </S.ButtonGroup>
+      </S.ControlsWrapper>
 
       {state.viewType === 'table' ? (
         <S.Table>
@@ -78,7 +108,7 @@ const UserList = () => {
             </S.TableRow>
           </thead>
           <tbody>
-            {filteredUsers.slice(0, 20).map((user) => (
+            {displayedUsers.map((user) => (
               <S.TableRow key={user.id}>
                 <S.TableCell>{user.name}</S.TableCell>
                 <S.TableCell>{user.email}</S.TableCell>
@@ -90,16 +120,23 @@ const UserList = () => {
                     year: 'numeric',
                   })}
                 </S.TableCell>
+                <S.TableCell>
+                  <button onClick={() => navigate(`/user/${user.id}`)}>Details</button>
+                </S.TableCell>
               </S.TableRow>
             ))}
           </tbody>
         </S.Table>
       ) : (
         <S.CardContainer>
-          {filteredUsers.slice(0, 20).map((user) => (
+          {displayedUsers.map((user) => (
             <UserCard user={user} key={user.id} />
           ))}
         </S.CardContainer>
+      )}
+
+      {state.isPaginated && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={goToPage} />
       )}
     </S.Container>
   );

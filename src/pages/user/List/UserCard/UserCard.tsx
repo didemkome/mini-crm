@@ -1,11 +1,13 @@
 import type { User } from '@/types/user';
 
 import * as S from './UserCard.styled';
+import { useNavigate } from 'react-router-dom';
 type UserCardProps = {
   user: User;
 };
 
 const UserCard = ({ user }: UserCardProps) => {
+  const navigate = useNavigate();
   return (
     <S.Container>
       <S.Title>{user.name}</S.Title>
@@ -18,6 +20,7 @@ const UserCard = ({ user }: UserCardProps) => {
           year: 'numeric',
         })}
       </S.Text>
+      <button onClick={() => navigate(`/user/${user.id}`)}>Details</button>
     </S.Container>
   );
 };

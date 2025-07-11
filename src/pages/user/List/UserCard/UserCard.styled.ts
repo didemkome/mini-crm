@@ -2,14 +2,14 @@ import styled from 'styled-components';
 
 const UserCardContainer = styled.div`
   background-color: white;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  width: calc(33.333% - 16px);
+  padding: 12px;
+  width: calc(25% - 16px);
   box-sizing: border-box;
 
   @media (max-width: 900px) {
-    width: calc(50% - 16px);
+    width: calc(50% - 12px);
   }
   @media (max-width: 600px) {
     width: 100%;

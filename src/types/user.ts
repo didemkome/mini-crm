@@ -14,12 +14,14 @@ export type User = {
 export type UserState = {
   users: User[];
   viewType: ViewType;
+  isPaginated: boolean;
 };
 
 export type UserAction =
   | { type: 'SET_USERS'; payload: User[] }
   | { type: 'ADD_USER'; payload: User }
-  | { type: 'TOGGLE_VIEW' };
+  | { type: 'TOGGLE_VIEW' }
+  | { type: 'TOGGLE_PAGINATION' };
 
 export type UserContextType = {
   state: UserState;
