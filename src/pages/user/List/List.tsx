@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { generateFakeUsers } from '@/utils/generateFakeUsers.ts';
 
 import { useUserContext } from '@/context/UserProvider.tsx';
 
-import * as S from './List.styled.ts';
 import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
+import * as S from './List.styled.ts';
 
 const UserList = () => {
   const { state, dispatch } = useUserContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
 
   useEffect(() => {
     if (state.users.length === 0) {
@@ -17,9 +20,31 @@ const UserList = () => {
     }
   }, [state.users.length, dispatch]);
 
+  useEffect(() => {
+    setSearchTerm(searchQuery);
+  }, [searchQuery]);
+
   const toggleView = () => {
     dispatch({ type: 'TOGGLE_VIEW' });
   };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value) {
+      setSearchParams({ search: value });
+    } else {
+      setSearchParams({});
+    }
+  };
+
+  const filteredUsers = state.users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.role.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <S.Container>
@@ -28,6 +53,19 @@ const UserList = () => {
       <button onClick={toggleView}>
         Switch to {state.viewType === 'table' ? 'Card' : 'Table'} View
       </button>
+
+      <input
+        type="text"
+        placeholder="Search by name, email or role"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        style={{
+          padding: '8px',
+          fontSize: '1rem',
+          marginBottom: '12px',
+          width: '100%',
+        }}
+      />
 
       {state.viewType === 'table' ? (
         <S.Table>
@@ -40,7 +78,7 @@ const UserList = () => {
             </S.TableRow>
           </thead>
           <tbody>
-            {state.users.slice(0, 20).map((user) => (
+            {filteredUsers.slice(0, 20).map((user) => (
               <S.TableRow key={user.id}>
                 <S.TableCell>{user.name}</S.TableCell>
                 <S.TableCell>{user.email}</S.TableCell>
@@ -58,7 +96,7 @@ const UserList = () => {
         </S.Table>
       ) : (
         <S.CardContainer>
-          {state.users.slice(0, 20).map((user) => (
+          {filteredUsers.slice(0, 20).map((user) => (
             <UserCard user={user} key={user.id} />
           ))}
         </S.CardContainer>
