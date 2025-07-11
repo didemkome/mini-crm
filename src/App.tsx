@@ -1,13 +1,9 @@
-import { useState } from 'react'
-import './App.css'
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import UserList from "src/pages/user/List.tsx";
-import UserDetail from "src/pages/user/Detail.tsx";
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import UserList from './pages/user/List';
+import UserDetail from './pages/user/Detail';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <BrowserRouter>
       <Routes>
@@ -15,7 +11,7 @@ function App() {
         <Route path="/users/:id" element={<UserDetail />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
