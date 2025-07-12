@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@/components/UI/Button/Button.tsx';
 
 type PaginationProps = {
   currentPage: number;
@@ -26,37 +27,37 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     <div
       style={{ marginTop: 16, display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}
     >
-      <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+      <Button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
         Previous
-      </button>
+      </Button>
 
       {startPage > 1 && (
         <>
-          <button onClick={() => onPageChange(1)}>1</button>
+          <Button onClick={() => onPageChange(1)}>1</Button>
           {startPage > 2 && <span>...</span>}
         </>
       )}
 
       {pages.map((page) => (
-        <button
+        <Button
           key={page}
           onClick={() => onPageChange(page)}
           style={{ fontWeight: page === currentPage ? 'bold' : 'normal' }}
         >
           {page}
-        </button>
+        </Button>
       ))}
 
       {endPage < totalPages && (
         <>
           {endPage < totalPages - 1 && <span>...</span>}
-          <button onClick={() => onPageChange(totalPages)}>{totalPages}</button>
+          <Button onClick={() => onPageChange(totalPages)}>{totalPages}</Button>
         </>
       )}
 
-      <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+      <Button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
         Next
-      </button>
+      </Button>
     </div>
   );
 };

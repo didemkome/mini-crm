@@ -20,7 +20,7 @@ const UserCard = ({ user }: UserCardProps) => {
           year: 'numeric',
         })}
       </S.Text>
-      <button onClick={() => navigate(`/user/${user.id}`)}>Details</button>
+      <button onClick={() => navigate(`/users/${user.id}`)}>Details</button>
     </S.Container>
   );
 };

@@ -1,12 +1,14 @@
 export type ViewType = 'table' | 'card';
 
+export type Roles = 'Admin' | 'Manager' | 'Developer';
+
 export type User = {
   id: string;
   name: string;
   email: string;
   role: string;
   createdAt: string;
-  active: boolean;
+  isActive: boolean;
   latitude: number;
   longitude: number;
 };
@@ -27,3 +29,5 @@ export type UserContextType = {
   state: UserState;
   dispatch: React.Dispatch<UserAction>;
 };
+
+export const RolesArr = ['Admin', 'Manager', 'Developer'];

@@ -7,6 +7,9 @@ import { useUserContext } from '@/context/UserProvider.tsx';
 import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
 import * as S from './List.styled.ts';
 import Pagination from '@/components/Pagination/Pagination.tsx';
+import AddUserModal from '@/components/AddUserModal/AddUserModal.tsx';
+import Button from '@/components/UI/Button/Button.tsx';
+import { UserPlus } from 'lucide-react';
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -19,6 +22,11 @@ const UserList = () => {
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
   const itemsPerPage = 10;
+
+  const isModalOpen = location.pathname.endsWith('/add');
+
+  const openModal = () => navigate('/users/add');
+  const closeModal = () => navigate('/');
 
   useEffect(() => {
     if (state.users.length === 0) {
@@ -88,12 +96,17 @@ const UserList = () => {
           onChange={handleSearchChange}
         />
         <S.ButtonGroup>
-          <S.Button onClick={toggleView}>
+          <Button onClick={toggleView}>
             Switch to {state.viewType === 'table' ? 'Card' : 'Table'} View
-          </S.Button>
-          <S.Button onClick={togglePagination}>
+          </Button>
+          <Button onClick={togglePagination}>
             {state.isPaginated ? 'Show All Users' : 'Show Paginated'}
-          </S.Button>
+          </Button>
+
+          <Button onClick={openModal}>
+            <UserPlus size={18} style={{ marginLeft: '4px' }} />
+            Add User
+          </Button>
         </S.ButtonGroup>
       </S.ControlsWrapper>
 
@@ -105,13 +118,14 @@ const UserList = () => {
               <S.TableHeader>Email</S.TableHeader>
               <S.TableHeader>Role</S.TableHeader>
               <S.TableHeader>Creation Date</S.TableHeader>
+              <S.TableHeader>Actions</S.TableHeader>
             </S.TableRow>
           </thead>
           <tbody>
             {displayedUsers.map((user) => (
               <S.TableRow key={user.id}>
-                <S.TableCell>{user.name}</S.TableCell>
-                <S.TableCell>{user.email}</S.TableCell>
+                <S.TableCell title={user.name}>{user.name}</S.TableCell>
+                <S.TableCell title={user.email}>{user.email}</S.TableCell>
                 <S.TableCell>{user.role}</S.TableCell>
                 <S.TableCell>
                   {new Date(user.createdAt).toLocaleDateString('tr-TR', {
@@ -121,7 +135,7 @@ const UserList = () => {
                   })}
                 </S.TableCell>
                 <S.TableCell>
-                  <button onClick={() => navigate(`/user/${user.id}`)}>Details</button>
+                  <Button onClick={() => navigate(`/users/${user.id}`)}>Details</Button>
                 </S.TableCell>
               </S.TableRow>
             ))}
@@ -138,6 +152,8 @@ const UserList = () => {
       {state.isPaginated && (
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={goToPage} />
       )}
+
+      {isModalOpen && <AddUserModal onClose={closeModal} />}
     </S.Container>
   );
 };

@@ -1,8 +1,7 @@
 import { faker } from '@faker-js/faker';
-import type { User } from '../types/user';
+import { type Roles, RolesArr, type User } from '@/types/user';
 
 export function generateFakeUsers(count: number): User[] {
-  const roles = ['Admin', 'Manager', 'Developer'];
   const users: User[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -10,9 +9,9 @@ export function generateFakeUsers(count: number): User[] {
       id: faker.string.uuid(),
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      role: roles[Math.floor(Math.random() * roles.length)],
+      role: RolesArr[Math.floor(Math.random() * RolesArr.length)] as Roles,
       createdAt: faker.date.past({ years: 2 }).toISOString(),
-      active: faker.datatype.boolean(),
+      isActive: faker.datatype.boolean(),
       latitude: parseFloat(String(faker.location.latitude())),
       longitude: parseFloat(String(faker.location.longitude())),
     });
