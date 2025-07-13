@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { UserPlus } from 'lucide-react';
 
-import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
 import Pagination from '@/components/Pagination/Pagination.tsx';
 import AddUserModal from '@/components/AddUserModal/AddUserModal.tsx';
 import Button from '@/components/UI/Button/Button.tsx';
@@ -10,6 +9,7 @@ import { useUserContext } from '@/hooks/useUserContext.ts';
 
 import * as S from './List.styled.ts';
 import UserListTable from '@/pages/user/List/UserListTable/UserListTable.tsx';
+import UserCardList from '@/pages/user/List/UserCardList/UserCardList.tsx';
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -114,11 +114,7 @@ const UserList = () => {
       {state.viewType === 'table' ? (
         <UserListTable users={displayedUsers} isVirtualized={!state.isPaginated} />
       ) : (
-        <S.CardContainer>
-          {displayedUsers.map((user) => (
-            <UserCard user={user} key={user.id} />
-          ))}
-        </S.CardContainer>
+        <UserCardList users={displayedUsers} isVirtualized={!state.isPaginated} />
       )}
 
       {state.isPaginated && (

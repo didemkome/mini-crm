@@ -1,17 +1,21 @@
 import type { User } from '@/types/user';
+import { useNavigate } from 'react-router-dom';
+
+import { useUserContext } from '@/hooks/useUserContext.ts';
 
 import * as S from './UserCard.styled';
-import { useNavigate } from 'react-router-dom';
 type UserCardProps = {
   user: User;
 };
 
 const UserCard = ({ user }: UserCardProps) => {
   const navigate = useNavigate();
+  const { state } = useUserContext();
+
   return (
-    <S.Container>
-      <S.Title>{user.name}</S.Title>
-      <S.Text>{user.email}</S.Text>
+    <S.Container $isPaginated={state.isPaginated}>
+      <S.Title title={user.name}>{user.name}</S.Title>
+      <S.Text title={user.email}>{user.email}</S.Text>
       <S.Text>{user.role}</S.Text>
       <S.Text>
         {new Date(user.createdAt).toLocaleDateString('tr-TR', {

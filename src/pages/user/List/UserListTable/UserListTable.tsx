@@ -2,6 +2,7 @@ import { FixedSizeList as List } from 'react-window';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/UI/Button/Button.tsx';
 import * as S from './UserListTable.styled.ts';
+import * as ListS from '../List.styled.ts';
 import type { User } from '@/types/user';
 import { forwardRef } from 'react';
 
@@ -13,7 +14,7 @@ type Props = {
 const ROW_HEIGHT = 60;
 
 export const StyledOuter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  (props, ref) => <S.OuterContainer ref={ref} {...props} />
+  (props, ref) => <ListS.OuterContainer ref={ref} {...props} />
 );
 
 const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {

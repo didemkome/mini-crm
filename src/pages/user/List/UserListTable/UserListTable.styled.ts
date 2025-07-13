@@ -37,23 +37,9 @@ const UserListTableCell = styled.div`
   }
 `;
 
-const UserListTableOuterContainer = styled.div`
-  overflow: scroll;
-
-  &::-webkit-scrollbar {
-    width: 2px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #a3a3a3;
-    border-radius: 4px;
-  }
-`;
-
 export {
   UserListTableContainer as Container,
   UserListTableHeader as Header,
   UserListTableRow as Row,
   UserListTableCell as Cell,
-  UserListTableOuterContainer as OuterContainer,
 };

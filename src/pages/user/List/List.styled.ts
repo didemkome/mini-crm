@@ -72,12 +72,18 @@ const ListButtonGroup = styled.div`
   }
 `;
 
-const ListCardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 16px;
-  width: 100%;
+const ListOuterContainer = styled.div`
+  overflow: scroll;
+  width: 100% !important;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #a3a3a3;
+    border-radius: 4px;
+  }
 `;
 
 export {
@@ -86,5 +92,5 @@ export {
   ListControlsWrapper as ControlsWrapper,
   ListSearch as Search,
   ListButtonGroup as ButtonGroup,
-  ListCardContainer as CardContainer,
+  ListOuterContainer as OuterContainer,
 };
