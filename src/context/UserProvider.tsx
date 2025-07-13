@@ -1,16 +1,26 @@
-import { type ReactNode, useContext, useReducer } from 'react';
+import { type ReactNode, useReducer, useEffect, useState } from 'react';
 import { UserContext } from './UserContext';
 import { userReducer, initialUserState } from '@/reducers/userReducer';
-import type { UserContextType } from '@/types/user.ts';
+
+import { generateFakeUsers } from '@/utils/generateFakeUsers.ts';
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(userReducer, initialUserState);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return <UserContext.Provider value={{ state, dispatch }}>{children}</UserContext.Provider>;
-};
+  useEffect(() => {
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers) {
+      dispatch({ type: 'SET_USERS', payload: JSON.parse(storedUsers) });
+    } else {
+      const fakeUsers = generateFakeUsers(5000);
+      dispatch({ type: 'SET_USERS', payload: fakeUsers });
+      localStorage.setItem('users', JSON.stringify(fakeUsers));
+    }
+    setIsLoading(false);
+  }, []);
 
-export const useUserContext = (): UserContextType => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error('useUserContext must be used within UserProvider');
-  return context;
+  return (
+    <UserContext.Provider value={{ state, dispatch, isLoading }}>{children}</UserContext.Provider>
+  );
 };

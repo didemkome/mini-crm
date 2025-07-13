@@ -28,6 +28,7 @@ export type UserAction =
 export type UserContextType = {
   state: UserState;
   dispatch: React.Dispatch<UserAction>;
+  isLoading: boolean;
 };
 
 export const RolesArr = ['Admin', 'Manager', 'Developer'];

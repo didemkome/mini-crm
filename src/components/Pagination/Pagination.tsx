@@ -1,5 +1,4 @@
-import React from 'react';
-import Button from '@/components/UI/Button/Button.tsx';
+import * as S from './Pagination.styled.ts';
 
 type PaginationProps = {
   currentPage: number;
@@ -23,42 +22,41 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     pages.push(i);
   }
 
+  console.log('currentPage', currentPage, 'pages', pages);
+
   return (
-    <div
-      style={{ marginTop: 16, display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}
-    >
-      <Button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+    <S.Wrapper>
+      <S.PageButton onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
         Previous
-      </Button>
+      </S.PageButton>
 
       {startPage > 1 && (
         <>
-          <Button onClick={() => onPageChange(1)}>1</Button>
-          {startPage > 2 && <span>...</span>}
+          <S.PageButton onClick={() => onPageChange(1)}>1</S.PageButton>
+          {startPage > 2 && <S.Ellipsis>...</S.Ellipsis>}
         </>
       )}
 
       {pages.map((page) => (
-        <Button
-          key={page}
-          onClick={() => onPageChange(page)}
-          style={{ fontWeight: page === currentPage ? 'bold' : 'normal' }}
-        >
+        <S.PageButton key={page} onClick={() => onPageChange(page)} $active={page === currentPage}>
           {page}
-        </Button>
+        </S.PageButton>
       ))}
 
       {endPage < totalPages && (
         <>
           {endPage < totalPages - 1 && <span>...</span>}
-          <Button onClick={() => onPageChange(totalPages)}>{totalPages}</Button>
+          <S.PageButton onClick={() => onPageChange(totalPages)}>{totalPages}</S.PageButton>
         </>
       )}
 
-      <Button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+      <S.PageButton
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
         Next
-      </Button>
-    </div>
+      </S.PageButton>
+    </S.Wrapper>
   );
 };
 

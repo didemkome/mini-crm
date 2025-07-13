@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { generateFakeUsers } from '@/utils/generateFakeUsers.ts';
-
-import { useUserContext } from '@/context/UserProvider.tsx';
+import { UserPlus } from 'lucide-react';
 
 import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
-import * as S from './List.styled.ts';
+
 import Pagination from '@/components/Pagination/Pagination.tsx';
 import AddUserModal from '@/components/AddUserModal/AddUserModal.tsx';
 import Button from '@/components/UI/Button/Button.tsx';
-import { UserPlus } from 'lucide-react';
+
+import { useUserContext } from '@/hooks/useUserContext.ts';
+
+import * as S from './List.styled.ts';
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ const UserList = () => {
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
 
+  console.log('pageParam', pageParam);
+  console.log('currentPage', currentPage);
+
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
   const itemsPerPage = 10;
@@ -27,16 +31,6 @@ const UserList = () => {
 
   const openModal = () => navigate('/users/add');
   const closeModal = () => navigate('/');
-
-  useEffect(() => {
-    const storedUsers = localStorage.getItem('users');
-    if (storedUsers) {
-      dispatch({ type: 'SET_USERS', payload: JSON.parse(storedUsers) });
-    } else {
-      const fakeUsers = generateFakeUsers(5000);
-      dispatch({ type: 'SET_USERS', payload: fakeUsers });
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     setSearchTerm(searchQuery);

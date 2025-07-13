@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserContext } from '@/context/UserProvider';
-import * as S from './AddUserModal.styled';
 import { faker } from '@faker-js/faker';
 import { UserPlus } from 'lucide-react';
+
 import Button from '@/components/UI/Button/Button.tsx';
 import { RolesArr } from '@/types/user.ts';
+import { getRandomCoordinateInTurkey } from '@/utils/getRandomCoordinateInTurkey.ts';
+import { useUserContext } from '@/hooks/useUserContext.ts';
+
+import * as S from './AddUserModal.styled';
 
 interface AddUserModalProps {
   onClose: () => void;
@@ -14,6 +17,7 @@ interface AddUserModalProps {
 const AddUserModal = ({ onClose }: AddUserModalProps) => {
   const { dispatch } = useUserContext();
   const navigate = useNavigate();
+  const { latitude, longitude } = getRandomCoordinateInTurkey();
 
   const [form, setForm] = useState({
     name: '',
@@ -65,8 +69,8 @@ const AddUserModal = ({ onClose }: AddUserModalProps) => {
       role: form.role,
       isActive: form.isActive,
       createdAt: new Date().toISOString(),
-      latitude: parseFloat(String(faker.location.latitude())),
-      longitude: parseFloat(String(faker.location.longitude())),
+      latitude: latitude,
+      longitude: longitude,
     };
 
     dispatch({ type: 'ADD_USER', payload: newUser });
