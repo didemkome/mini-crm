@@ -2,8 +2,8 @@ import type { UserAction, UserState } from '@/types/user';
 
 export const initialUserState: UserState = {
   users: [],
-  viewType: 'table',
-  isPaginated: true,
+  viewType: localStorage.getItem('viewType') === 'card' ? 'card' : 'table',
+  isPaginated: localStorage.getItem('isPaginated') !== 'false',
 };
 
 export const userReducer = (state: UserState, action: UserAction): UserState => {
@@ -17,10 +17,16 @@ export const userReducer = (state: UserState, action: UserAction): UserState => 
       localStorage.setItem('users', JSON.stringify(updatedUsers));
       return { ...state, users: updatedUsers };
     }
-    case 'TOGGLE_VIEW':
-      return { ...state, viewType: state.viewType === 'table' ? 'card' : 'table' };
-    case 'TOGGLE_PAGINATION':
-      return { ...state, isPaginated: !state.isPaginated };
+    case 'TOGGLE_VIEW': {
+      const newView = state.viewType === 'table' ? 'card' : 'table';
+      localStorage.setItem('viewType', newView);
+      return { ...state, viewType: newView };
+    }
+    case 'TOGGLE_PAGINATION': {
+      const newIsPaginated = !state.isPaginated;
+      localStorage.setItem('isPaginated', JSON.stringify(newIsPaginated));
+      return { ...state, isPaginated: newIsPaginated };
+    }
     default:
       return state;
   }

@@ -19,9 +19,6 @@ const UserList = () => {
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
 
-  console.log('pageParam', pageParam);
-  console.log('currentPage', currentPage);
-
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
   const itemsPerPage = 10;
@@ -34,6 +31,14 @@ const UserList = () => {
   useEffect(() => {
     setSearchTerm(searchQuery);
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (!state.isPaginated && searchParams.has('page')) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('page');
+      setSearchParams(params, { replace: true });
+    }
+  }, [state.isPaginated, searchParams, setSearchParams]);
 
   const toggleView = () => {
     dispatch({ type: 'TOGGLE_VIEW' });
