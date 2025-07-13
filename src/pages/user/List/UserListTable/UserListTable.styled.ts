@@ -16,11 +16,6 @@ const UserListTableHeader = styled.div`
   color: #4b5563;
   user-select: none;
   border-bottom: 1px solid #e5e7eb;
-
-  @media (max-width: 768px) {
-    max-width: 800px;
-    min-width: 800px;
-  }
 `;
 
 const UserListTableRow = styled.div`
@@ -29,11 +24,6 @@ const UserListTableRow = styled.div`
 
   &:hover {
     background-color: #f3f4f6;
-  }
-
-  @media (max-width: 768px) {
-    max-width: 800px;
-    min-width: 800px;
   }
 `;
 
