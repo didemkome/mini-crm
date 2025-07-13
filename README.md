@@ -69,3 +69,9 @@ cd mini-crm
 pnpm install
 pnpm dev
 ```
+
+## Live Demo
+
+You can view the live version of the project here:
+
+👉🏼https://mini-crm-rosy-delta.vercel.app/
