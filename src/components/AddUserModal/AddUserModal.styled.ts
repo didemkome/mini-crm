@@ -9,7 +9,7 @@ const AddUserModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     align-items: flex-end;
   }
 `;
@@ -24,12 +24,13 @@ const AddUserModalBox = styled.div`
 
   animation: fadeSlideIn 0.3s ease-out;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     width: 100%;
     border-radius: 20px 20px 0 0;
     max-height: 90vh;
     overflow-y: auto;
     animation: bottomSheetSlideIn 0.4s ease-out;
+    max-width: unset;
 
     & > button {
       width: 100%;
@@ -75,7 +76,7 @@ const AddUserModalInput = styled.input`
   height: 40px;
   font-size: 14px;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: #f9fafb;
   padding-left: 8px;
   color: #222;
@@ -112,9 +113,9 @@ const AddUserModalSelect = styled.select`
   width: 100%;
   margin-bottom: 16px;
   padding: 10px 14px;
-  font-size: 15px;
+  font-size: 16px;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: #f9fafb;
 
   &:focus {

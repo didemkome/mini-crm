@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
 import * as ListS from '../List.styled.ts';
 import * as S from './UserCardList.styled.ts';
+import useDeviceBreakpoints from '@/hooks/useDeviceBreakpoints.ts';
 
 export const StyledOuter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   (props, ref) => <ListS.OuterContainer ref={ref} {...props} />
@@ -20,14 +21,16 @@ const CARD_HEIGHT = 180;
 const COLUMN_WIDTH = CARD_WIDTH;
 const ROW_HEIGHT = CARD_HEIGHT;
 
-const getColumnCount = () => {
-  if (window.innerWidth < 600) return 1;
-  if (window.innerWidth < 900) return 2;
+const getColumnCount = (isMobile: boolean, isTablet: boolean) => {
+  if (isMobile) return 1;
+  if (isTablet) return 3;
   return 4;
 };
 
 const UserCardList: React.FC<Props> = ({ users, isVirtualized }) => {
-  const columnCount = getColumnCount();
+  const { isMobile, isTablet } = useDeviceBreakpoints();
+
+  const columnCount = getColumnCount(isMobile, isTablet);
   const rowCount = Math.ceil(users.length / columnCount);
 
   if (isVirtualized) {
@@ -35,7 +38,7 @@ const UserCardList: React.FC<Props> = ({ users, isVirtualized }) => {
       <S.Container $isVirtualized={isVirtualized}>
         <Grid
           columnCount={columnCount}
-          columnWidth={COLUMN_WIDTH}
+          columnWidth={isMobile ? window.innerWidth - 40 : COLUMN_WIDTH}
           height={window.innerHeight - 200}
           rowCount={rowCount}
           rowHeight={ROW_HEIGHT}

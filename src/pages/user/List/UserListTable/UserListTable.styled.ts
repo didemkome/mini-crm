@@ -1,8 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const UserListTableContainer = styled.div`
   overflow: hidden;
   width: 100%;
+
+  @media (max-width: 768px) {
+    overflow-x: auto !important;
+  }
 `;
 
 const UserListTableHeader = styled.div`
@@ -12,28 +16,49 @@ const UserListTableHeader = styled.div`
   color: #4b5563;
   user-select: none;
   border-bottom: 1px solid #e5e7eb;
+
+  @media (max-width: 768px) {
+    min-width: 150dvw;
+  }
 `;
 
 const UserListTableRow = styled.div`
   display: flex;
   border-bottom: 1px solid #e5e7eb;
+
   &:hover {
     background-color: #f3f4f6;
   }
+
+  @media (max-width: 768px) {
+    min-width: 150dvw;
+  }
 `;
 
-const UserListTableCell = styled.div`
+const UserListTableCell = styled.div<{ $isSticky?: boolean }>`
   flex: 1;
   padding: 12px 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: flex;
-  align-items: center;
+  align-content: center;
 
   &:first-child,
-  &:nth-child(2) {
+  &:nth-child(2),
+  &:nth-child(4) {
     flex: 2;
+  }
+
+  @media (max-width: 768px) {
+    ${({ $isSticky }) =>
+      $isSticky &&
+      css`
+        position: sticky;
+        right: 0;
+        background: white;
+        z-index: 2;
+        flex: 0 0 50px;
+      `}
   }
 `;
 

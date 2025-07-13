@@ -6,7 +6,8 @@ import L from 'leaflet';
 import Button from '@/components/UI/Button/Button.tsx';
 import { useUserContext } from '@/hooks/useUserContext.ts';
 import * as S from './Detail.styled.ts';
-import { Loader2 } from 'lucide-react';
+import Loading from '@/components/Loading/Loading.tsx';
+import NotFoundMessage from '@/components/NotFoundMessage/NotFoundMessage.tsx';
 
 interface IconDefaultPrototype {
   _getIconUrl?: () => void;
@@ -20,21 +21,12 @@ const UserDetail = () => {
   const user = state.users.find((u) => u.id === id);
 
   if (isLoading) {
-    return (
-      <S.LoadingWrapper>
-        <S.LoadingIcon>
-          <Loader2 size={48} strokeWidth={2} />
-        </S.LoadingIcon>
-        Loading user data...
-      </S.LoadingWrapper>
-    );
+    return <Loading text="Loading user data..." />;
   }
 
-  if (!user) return <S.NotFoundMessage>User not found.</S.NotFoundMessage>;
+  if (!user) return <NotFoundMessage text="User not found." />;
 
   const position = [user.latitude, user.longitude] as [number, number];
-
-  console.log('position', position);
 
   delete (L.Icon.Default.prototype as IconDefaultPrototype)._getIconUrl;
   L.Icon.Default.mergeOptions({

@@ -1,4 +1,6 @@
 import * as S from './Pagination.styled.ts';
+import useDeviceBreakpoints from '@/hooks/useDeviceBreakpoints.ts';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type PaginationProps = {
   currentPage: number;
@@ -7,9 +9,11 @@ type PaginationProps = {
 };
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+  const { isMobile } = useDeviceBreakpoints();
+
   if (totalPages === 0) return null;
 
-  const maxPageButtons = 7;
+  const maxPageButtons = isMobile ? 4 : 7;
   let startPage = Math.max(currentPage - 3, 1);
   const endPage = Math.min(startPage + maxPageButtons - 1, totalPages);
 
@@ -22,12 +26,10 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     pages.push(i);
   }
 
-  console.log('currentPage', currentPage, 'pages', pages);
-
   return (
     <S.Wrapper>
       <S.PageButton onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-        Previous
+        {isMobile ? <ChevronLeft size={18} /> : 'Previous'}
       </S.PageButton>
 
       {startPage > 1 && (
@@ -54,7 +56,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        Next
+        {isMobile ? <ChevronRight size={18} /> : 'Next'}
       </S.PageButton>
     </S.Wrapper>
   );

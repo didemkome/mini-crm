@@ -18,33 +18,28 @@ const ListTitle = styled.h1`
   color: #1f2937;
   text-align: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     font-size: 24px;
   }
 `;
 
 const ListControlsWrapper = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 12px;
   margin-bottom: 16px;
   width: 100%;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 
 const ListSearch = styled.input`
-  padding: 10px 16px;
   font-size: 14px;
-  border: 2px solid #d1d5db;
-  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
   background-color: white;
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: border-color 0.3s ease;
   width: 70%;
 
   &:focus {
@@ -56,10 +51,12 @@ const ListSearch = styled.input`
     font-size: 14px;
     color: #9ca3af;
     font-style: italic;
+    width: 80%;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     width: 100%;
+    height: 40px;
   }
 `;
 
@@ -67,8 +64,8 @@ const ListButtonGroup = styled.div`
   display: flex;
   gap: 8px;
 
-  @media (max-width: 600px) {
-    justify-content: flex-start;
+  @media (max-width: 768px) {
+    justify-content: space-between;
   }
 `;
 
@@ -86,6 +83,13 @@ const ListOuterContainer = styled.div`
   }
 `;
 
+const ListNoDataMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+`;
+
 export {
   ListContainer as Container,
   ListTitle as Title,
@@ -93,4 +97,5 @@ export {
   ListSearch as Search,
   ListButtonGroup as ButtonGroup,
   ListOuterContainer as OuterContainer,
+  ListNoDataMessage as NoDataMessage,
 };

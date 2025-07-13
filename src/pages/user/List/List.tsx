@@ -10,10 +10,14 @@ import { useUserContext } from '@/hooks/useUserContext.ts';
 import * as S from './List.styled.ts';
 import UserListTable from '@/pages/user/List/UserListTable/UserListTable.tsx';
 import UserCardList from '@/pages/user/List/UserCardList/UserCardList.tsx';
+import useDeviceBreakpoints from '@/hooks/useDeviceBreakpoints.ts';
+import NotFoundMessage from '@/components/NotFoundMessage/NotFoundMessage.tsx';
+import Loading from '@/components/Loading/Loading.tsx';
 
 const UserList = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useUserContext();
+  const { isMobile } = useDeviceBreakpoints();
+  const { state, dispatch, isLoading } = useUserContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
   const pageParam = searchParams.get('page');
@@ -21,7 +25,7 @@ const UserList = () => {
 
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
-  const itemsPerPage = 10;
+  const itemsPerPage = isMobile ? 8 : 10;
 
   const isModalOpen = location.pathname.endsWith('/add');
 
@@ -85,6 +89,10 @@ const UserList = () => {
     });
   };
 
+  if (isLoading) {
+    return <Loading text="Loading users..." />;
+  }
+
   return (
     <S.Container>
       <S.Title>User List</S.Title>
@@ -111,7 +119,9 @@ const UserList = () => {
         </S.ButtonGroup>
       </S.ControlsWrapper>
 
-      {state.viewType === 'table' ? (
+      {displayedUsers.length === 0 ? (
+        <NotFoundMessage text="No data found." />
+      ) : state.viewType === 'table' ? (
         <UserListTable users={displayedUsers} isVirtualized={!state.isPaginated} />
       ) : (
         <UserCardList users={displayedUsers} isVirtualized={!state.isPaginated} />

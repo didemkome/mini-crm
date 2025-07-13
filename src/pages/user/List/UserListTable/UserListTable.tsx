@@ -1,10 +1,16 @@
+import { forwardRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { useNavigate } from 'react-router-dom';
+import { BookUser } from 'lucide-react';
+
 import Button from '@/components/UI/Button/Button.tsx';
+
+import type { User } from '@/types/user';
+
+import useDeviceBreakpoints from '@/hooks/useDeviceBreakpoints.ts';
+
 import * as S from './UserListTable.styled.ts';
 import * as ListS from '../List.styled.ts';
-import type { User } from '@/types/user';
-import { forwardRef } from 'react';
 
 type Props = {
   users: User[];
@@ -19,6 +25,7 @@ export const StyledOuter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 
 const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {
   const navigate = useNavigate();
+  const { isMobile } = useDeviceBreakpoints();
 
   const RowContent = (user: User) => (
     <>
@@ -26,8 +33,11 @@ const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {
       <S.Cell title={user.email}>{user.email}</S.Cell>
       <S.Cell>{user.role}</S.Cell>
       <S.Cell>{new Date(user.createdAt).toLocaleDateString('tr-TR')}</S.Cell>
-      <S.Cell>
-        <Button onClick={() => navigate(`/users/${user.id}`)}>Details</Button>
+      <S.Cell $isSticky>
+        <Button onClick={() => navigate(`/users/${user.id}`)}>
+          <BookUser size={18} />
+          {!isMobile && <span>Details</span>}
+        </Button>
       </S.Cell>
     </>
   );
@@ -39,7 +49,7 @@ const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {
         <S.Cell>Email</S.Cell>
         <S.Cell>Role</S.Cell>
         <S.Cell>Creation Date</S.Cell>
-        <S.Cell>Actions</S.Cell>
+        <S.Cell $isSticky></S.Cell>
       </S.Header>
 
       {isVirtualized ? (

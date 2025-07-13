@@ -20,7 +20,6 @@ const PaginationPageButton = styled(Button)<{ $active?: boolean }>`
     color: var(--color-button-text);
     pointer-events: none;
     transition: none;
-   
   `}
 `;
 

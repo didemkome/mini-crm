@@ -16,7 +16,7 @@ const UserCardContainer = styled.div<{ $isPaginated: boolean }>`
             width: calc(50% - 12px);
           }
 
-          @media (max-width: 600px) {
+          @media (max-width: 768px) {
             width: 100%;
           }
         `
