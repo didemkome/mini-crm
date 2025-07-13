@@ -18,7 +18,7 @@ const UserListTableHeader = styled.div`
   border-bottom: 1px solid #e5e7eb;
 
   @media (max-width: 768px) {
-    min-width: 150dvw;
+    min-width: 800px;
   }
 `;
 
@@ -31,7 +31,7 @@ const UserListTableRow = styled.div`
   }
 
   @media (max-width: 768px) {
-    min-width: 150dvw;
+    min-width: 800px;
   }
 `;
 
@@ -44,8 +44,7 @@ const UserListTableCell = styled.div<{ $isSticky?: boolean }>`
   align-content: center;
 
   &:first-child,
-  &:nth-child(2),
-  &:nth-child(4) {
+  &:nth-child(2) {
     flex: 2;
   }
 
