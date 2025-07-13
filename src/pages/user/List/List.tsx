@@ -29,11 +29,14 @@ const UserList = () => {
   const closeModal = () => navigate('/');
 
   useEffect(() => {
-    if (state.users.length === 0) {
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers) {
+      dispatch({ type: 'SET_USERS', payload: JSON.parse(storedUsers) });
+    } else {
       const fakeUsers = generateFakeUsers(5000);
       dispatch({ type: 'SET_USERS', payload: fakeUsers });
     }
-  }, [state.users.length, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     setSearchTerm(searchQuery);
