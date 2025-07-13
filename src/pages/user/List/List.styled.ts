@@ -72,76 +72,12 @@ const ListButtonGroup = styled.div`
   }
 `;
 
-const ListTable = styled.table`
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: separate;
-  border-spacing: 0 5px;
-  color: #222;
-`;
-
-const ListTableRow = styled.tr`
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-`;
-
-const ListTableHeader = styled.th`
-  text-align: left;
-  padding: 4px 8px;
-  font-weight: 600;
-  height: 40px;
-  font-size: 16px;
-  color: #4b5563;
-  user-select: none;
-  border-left: 1px solid #e5e7eb;
-
-  &:first-child {
-    border-left: none;
-  }
-
-  &:last-child {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @media (max-width: 600px) {
-    padding: 8px 10px;
-    font-size: 14px;
-  }
-`;
-
-const ListTableCell = styled.td`
-  padding: 4px 8px;
-  font-size: 16px;
-  border-left: 1px solid #e5e7eb;
-  text-align: left;
-  max-width: 230px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  &:first-child {
-    border-left: none;
-  }
-
-  &:last-child {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @media (max-width: 600px) {
-    padding: 8px 10px;
-    font-size: 14px;
-    max-width: unset;
-  }
-`;
-
 const ListCardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 16px;
+  width: 100%;
 `;
 
 export {
@@ -150,9 +86,5 @@ export {
   ListControlsWrapper as ControlsWrapper,
   ListSearch as Search,
   ListButtonGroup as ButtonGroup,
-  ListTable as Table,
-  ListTableRow as TableRow,
-  ListTableHeader as TableHeader,
-  ListTableCell as TableCell,
   ListCardContainer as CardContainer,
 };

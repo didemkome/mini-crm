@@ -3,14 +3,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { UserPlus } from 'lucide-react';
 
 import UserCard from '@/pages/user/List/UserCard/UserCard.tsx';
-
 import Pagination from '@/components/Pagination/Pagination.tsx';
 import AddUserModal from '@/components/AddUserModal/AddUserModal.tsx';
 import Button from '@/components/UI/Button/Button.tsx';
-
 import { useUserContext } from '@/hooks/useUserContext.ts';
 
 import * as S from './List.styled.ts';
+import UserListTable from '@/pages/user/List/UserListTable/UserListTable.tsx';
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -108,36 +107,7 @@ const UserList = () => {
       </S.ControlsWrapper>
 
       {state.viewType === 'table' ? (
-        <S.Table>
-          <thead>
-            <S.TableRow>
-              <S.TableHeader>Name</S.TableHeader>
-              <S.TableHeader>Email</S.TableHeader>
-              <S.TableHeader>Role</S.TableHeader>
-              <S.TableHeader>Creation Date</S.TableHeader>
-              <S.TableHeader>Actions</S.TableHeader>
-            </S.TableRow>
-          </thead>
-          <tbody>
-            {displayedUsers.map((user) => (
-              <S.TableRow key={user.id}>
-                <S.TableCell title={user.name}>{user.name}</S.TableCell>
-                <S.TableCell title={user.email}>{user.email}</S.TableCell>
-                <S.TableCell>{user.role}</S.TableCell>
-                <S.TableCell>
-                  {new Date(user.createdAt).toLocaleDateString('tr-TR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </S.TableCell>
-                <S.TableCell>
-                  <Button onClick={() => navigate(`/users/${user.id}`)}>Details</Button>
-                </S.TableCell>
-              </S.TableRow>
-            ))}
-          </tbody>
-        </S.Table>
+        <UserListTable users={displayedUsers} isVirtualized={!state.isPaginated} />
       ) : (
         <S.CardContainer>
           {displayedUsers.map((user) => (
