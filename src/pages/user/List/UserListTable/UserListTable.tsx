@@ -49,7 +49,7 @@ const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {
         <S.Cell>Email</S.Cell>
         <S.Cell>Role</S.Cell>
         <S.Cell>{isMobile ? 'Date' : 'Creation Date'}</S.Cell>
-        <S.Cell $isSticky></S.Cell>
+        <S.Cell $isSticky>Actions</S.Cell>
       </S.Header>
 
       {isVirtualized ? (
