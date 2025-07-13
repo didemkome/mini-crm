@@ -31,8 +31,10 @@ const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {
     <>
       <S.Cell title={user.name}>{user.name}</S.Cell>
       <S.Cell title={user.email}>{user.email}</S.Cell>
-      <S.Cell>{user.role}</S.Cell>
-      <S.Cell>{new Date(user.createdAt).toLocaleDateString('tr-TR')}</S.Cell>
+      <S.Cell title={user.role}>{user.role}</S.Cell>
+      <S.Cell title={new Date(user.createdAt).toLocaleDateString('tr-TR')}>
+        {new Date(user.createdAt).toLocaleDateString('tr-TR')}
+      </S.Cell>
       <S.Cell $isSticky>
         <Button onClick={() => navigate(`/users/${user.id}`)}>
           <BookUser size={18} />
@@ -49,7 +51,7 @@ const UserListTable: React.FC<Props> = ({ users, isVirtualized }) => {
         <S.Cell>Email</S.Cell>
         <S.Cell>Role</S.Cell>
         <S.Cell>{isMobile ? 'Date' : 'Creation Date'}</S.Cell>
-        <S.Cell $isSticky>Actions</S.Cell>
+        <S.Cell $isSticky>{isMobile ? '' : 'Action'}</S.Cell>
       </S.Header>
 
       {isVirtualized ? (

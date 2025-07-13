@@ -18,6 +18,7 @@ const UserListTableHeader = styled.div`
   border-bottom: 1px solid #e5e7eb;
 
   @media (max-width: 768px) {
+    max-width: 800px;
     min-width: 800px;
   }
 `;
@@ -31,6 +32,7 @@ const UserListTableRow = styled.div`
   }
 
   @media (max-width: 768px) {
+    max-width: 800px;
     min-width: 800px;
   }
 `;
