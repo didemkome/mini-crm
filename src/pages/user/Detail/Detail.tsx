@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { lazy, Suspense } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -8,6 +8,8 @@ import { useUserContext } from '@/hooks/useUserContext.ts';
 import * as S from './Detail.styled.ts';
 import Loading from '@/components/Loading/Loading.tsx';
 import NotFoundMessage from '@/components/NotFoundMessage/NotFoundMessage.tsx';
+
+const MapSection = lazy(() => import('./MapSection/MapSection.tsx'));
 
 interface IconDefaultPrototype {
   _getIconUrl?: () => void;
@@ -45,20 +47,11 @@ const UserDetail = () => {
       <S.MapTitle>📍 Location of {user.name}</S.MapTitle>
 
       <S.MapWrapper>
-        <MapContainer
-          center={position}
-          zoom={13}
-          scrollWheelZoom={false}
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={position}>
-            <Popup>{user.name}</Popup>
-          </Marker>
-        </MapContainer>
+        <Suspense fallback={<Loading text="Loading map..." />}>
+          <S.MapWrapper>
+            <MapSection name={user.name} position={position} />
+          </S.MapWrapper>
+        </Suspense>
       </S.MapWrapper>
 
       <Button onClick={() => navigate(-1)} style={{ marginTop: '20px' }}>

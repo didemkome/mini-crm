@@ -5,14 +5,16 @@ import { UserPlus } from 'lucide-react';
 import Pagination from '@/components/Pagination/Pagination.tsx';
 import AddUserModal from '@/components/AddUserModal/AddUserModal.tsx';
 import Button from '@/components/UI/Button/Button.tsx';
-import { useUserContext } from '@/hooks/useUserContext.ts';
-
-import * as S from './List.styled.ts';
-import UserListTable from '@/pages/user/List/UserListTable/UserListTable.tsx';
-import UserCardList from '@/pages/user/List/UserCardList/UserCardList.tsx';
-import useDeviceBreakpoints from '@/hooks/useDeviceBreakpoints.ts';
 import NotFoundMessage from '@/components/NotFoundMessage/NotFoundMessage.tsx';
 import Loading from '@/components/Loading/Loading.tsx';
+
+import UserListTable from '@/pages/user/List/UserListTable/UserListTable.tsx';
+import UserCardList from '@/pages/user/List/UserCardList/UserCardList.tsx';
+
+import { useUserContext } from '@/hooks/useUserContext.ts';
+import useDeviceBreakpoints from '@/hooks/useDeviceBreakpoints.ts';
+
+import * as S from './List.styled.ts';
 
 const UserList = () => {
   const navigate = useNavigate();

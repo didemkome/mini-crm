@@ -10,4 +10,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          leaflet: ['leaflet', 'react-leaflet'],
+          lucide: ['lucide-react'],
+          faker: ['@faker-js/faker'],
+        },
+      },
+    },
+  },
 });
